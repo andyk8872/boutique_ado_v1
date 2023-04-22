@@ -14,6 +14,9 @@ import json
 
 @require_POST
 def cache_checkout_data(request):
+    """
+    handles if user wants to save information of the payment
+    """
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -27,7 +30,7 @@ def cache_checkout_data(request):
         messages.error(request, 'Sorry, your payment cannot be \
             processed right now. Please try again later.')
         return HttpResponse(content=e, status=400)
-        
+
 
 def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
