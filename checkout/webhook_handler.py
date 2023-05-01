@@ -52,6 +52,7 @@ class StripeWH_Handler:
         bag = intent.metadata.bag
         save_info = intent.metadata.save_info
 
+        # Get the Charge object
         stripe_charge = stripe.Charge.retrieve(
             intent.latest_charge
         )
