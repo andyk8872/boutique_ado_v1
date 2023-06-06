@@ -191,8 +191,7 @@ def add_review(request, product_id):
     review = Review(user=user, product=product)
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
-        if form.is_valid():           
-
+        if form.is_valid():
             form.save()
             messages.success(request, 'Review added successfully')
             return redirect(reverse('product_detail', args=[product_id]))
