@@ -191,12 +191,26 @@ def add_review(request, product_id):
     review = Review(user=user, product=product)
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
-        if form.is_valid():
+        if form.is_valid():           
+
             form.save()
             messages.success(request, 'Review added successfully')
             return redirect(reverse('product_detail', args=[product_id]))
         else:
             messages.error(request, 'All fields are required')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
     context = {'product': product, 'user': user, 'form': form}
+
     return render(request, 'products/add_review.html', context)
+
+
+def show_review(request):
+    """
+    Displays the reviews.
+    """
+    reviews = Review.objects.all().order_by('-created_on')
+    context = {
+        'reviews': reviews,
+    }
+    return render(request, 'show_review.html', context)

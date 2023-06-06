@@ -23,7 +23,7 @@
 
 
             <h5 class="text-muted">Add a Review</h5>
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'add_review' product.id %}">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="user">user:</label>
