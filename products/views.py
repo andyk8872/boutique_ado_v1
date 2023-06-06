@@ -4,8 +4,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.functions import Lower
-from .models import Product, Category
-from .forms import ProductForm
+from .models import Product, Category, Review
+from .forms import ProductForm, ReviewForm
+from django.http import HttpResponseRedirect
 
 
 def all_products(request):
@@ -137,4 +138,22 @@ def delete_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     product.delete()
     messages.success(request, 'Product deleted!')
-    return redirect(reverse('products')) 
+    return redirect(reverse('products'))
+
+
+@login_required
+def add_review(request):
+    '''
+        this view enables logged in users to
+        give their review
+    '''
+    form = ReviewForm()
+    # product = get_object_or_404(Product, pk=product_id)
+    # user = request.user
+    # review = Review(user=user, product=product)   
+
+    context = {'form': form}
+    return render(request, 'products/add_review.html', context)
+
+
+
