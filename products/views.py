@@ -203,14 +203,3 @@ def add_review(request, product_id):
     context = {'product': product, 'user': user, 'form': form}
 
     return render(request, 'products/add_review.html', context)
-
-
-def show_review(request):
-    """
-    Displays the reviews.
-    """
-    reviews = Review.objects.all().order_by('-created_on')
-    context = {
-        'reviews': reviews,
-    }
-    return render(request, 'show_review.html', context)
