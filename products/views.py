@@ -141,19 +141,62 @@ def delete_product(request, product_id):
     return redirect(reverse('products'))
 
 
-@login_required
-def add_review(request):
+# @login_required
+# def add_review(request):
+#     '''
+#         this view enables logged in users to
+#         give their review
+#     '''
+#     form = ReviewForm()
+#     # product = get_object_or_404(Product, pk=product_id)
+#     # user = request.user
+#     # review = Review(user=user, product=product)   
+
+#     context = {'form': form}
+#     return render(request, 'products/add_review.html', context)
+
+
+# @login_required
+# def add_review(request, product_id):
+#     '''
+#         this view enables logged in users to
+#         give their review
+#     '''
+#     form = ReviewForm()
+#     product = get_object_or_404(Product, pk=product_id)
+#     # user = request.user
+#     # review = Review(user=user, product=product)
+#     if request.method == 'POST':
+#         form = Reviewform(request.POST, instance=product)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Update successful..\
+#              We will follow up within 24 hours to finalise details &\
+#                  payment.')
+#             return redirect('product_detail.html')
+#         else:
+#             form = ReviewForm(instance=product)     
+
+#     context = {'form': form, 'product': product}
+#     return render(reverse(request, 'add_review.html', context))
+
+def add_review(request, product_id):
     '''
         this view enables logged in users to
         give their review
     '''
     form = ReviewForm()
-    # product = get_object_or_404(Product, pk=product_id)
-    # user = request.user
-    # review = Review(user=user, product=product)   
-
-    context = {'form': form}
+    product = get_object_or_404(Product, pk=product_id)
+    user = request.user
+    review = Review(user=user, product=product)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Review added successfully')
+            return redirect(reverse('product_detail', args=[product_id]))
+        else:
+            messages.error(request, 'All fields are required')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    context = {'product': product, 'user': user, 'form': form}
     return render(request, 'products/add_review.html', context)
-
-
-
