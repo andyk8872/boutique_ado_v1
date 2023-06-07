@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.functions import Lower
-from .models import Product, Category, Review
-from .forms import ProductForm, ReviewForm
+from .models import Product, Category
+from .forms import ProductForm
 from django.http import HttpResponseRedirect
 
 
@@ -180,25 +180,25 @@ def delete_product(request, product_id):
 #     context = {'form': form, 'product': product}
 #     return render(reverse(request, 'add_review.html', context))
 
-def add_review(request, product_id):
-    '''
-        this view enables logged in users to
-        give their review
-    '''
-    form = ReviewForm()
-    product = get_object_or_404(Product, pk=product_id)
-    user = request.user
-    review = Review(user=user, product=product)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST, instance=review)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Review added successfully')
-            return redirect(reverse('product_detail', args=[product_id]))
-        else:
-            messages.error(request, 'All fields are required')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+# def add_review(request, product_id):
+#     '''
+#         this view enables logged in users to
+#         give their review
+#     '''
+#     form = ReviewForm()
+#     product = get_object_or_404(Product, pk=product_id)
+#     user = request.user
+#     review = Review(user=user, product=product)
+#     if request.method == 'POST':
+#         form = ReviewForm(request.POST, instance=review)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Review added successfully')
+#             return redirect(reverse('product_detail', args=[product_id]))
+#         else:
+#             messages.error(request, 'All fields are required')
+#             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    context = {'product': product, 'user': user, 'form': form}
+#     context = {'product': product, 'user': user, 'form': form}
 
-    return render(request, 'products/add_review.html', context)
+#     return render(request, 'products/add_review.html', context)
