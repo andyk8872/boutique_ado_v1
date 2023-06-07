@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views import View
 from .forms import ReviewForm
 from .models import Review
@@ -24,7 +24,7 @@ def make_review(request):
             messages.success(
                 request, 'Review posted. Wait for approval.'
                 )
-            return redirect('home')
+            return redirect('show_review')
 
     else:
         form = ReviewForm()
@@ -43,3 +43,39 @@ def show_review(request):
         'reviews': reviews,
     }
     return render(request, 'review/show_review.html', context)
+
+
+def delete_review(request, review_id):
+    """ Delete a product from the store """
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+
+    review = get_object_or_404(Review, pk=review_id)
+    review.delete()
+    messages.success(request, 'Review deleted!')
+    return redirect(reverse('show_review'))
+
+
+def edit_review(request, review_id):
+    """
+    Displays the review form if user is authorised.
+    """
+    review = get_object_or_404(Review, pk=review_id)
+    if request.method == 'POST':        
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request, 'Update successful...'
+                )
+            return redirect('show_review')
+        else:
+            messages.error(request, 'Error. Please ensure the form is valid.')   
+
+    else:
+        form = ReviewForm()
+        context = {            
+            'form': form,            
+            }
+    return render(request, 'review/edit_review.html', context)
