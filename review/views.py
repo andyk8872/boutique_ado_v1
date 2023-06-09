@@ -29,7 +29,8 @@ def make_review(request):
     else:
         form = ReviewForm()
         context = {
-            'form': form,            
+            'form': form,
+            'on_profile_page': True        
             }
     return render(request, 'review/make_review.html', context)
 
@@ -78,6 +79,7 @@ def edit_review(request, review_id):
         messages.info(request, f'You are editing')
 
         context = {            
-            'form': form,            
+            'form': form,
+            'on_profile_page': True            
             }
     return render(request, 'review/edit_review.html', context)

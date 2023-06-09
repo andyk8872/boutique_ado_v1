@@ -17,15 +17,15 @@
 <h1 class="display-4 mt-5 text-center">Show Review</h1>
 <div class="container">
     <div class="row bg-form text-dark">
-        <div class="col-md-4 mt-3 mb-3 offset-md-4">
+        <div class="col-md-6 mt-3 mb-3 offset-md-3">
             {% for review in reviews %}
             <div class="card bg-light mb-3 mx-auto" style="max-width: 36rem">
 
                 <div class="card-body">
-                    <h5 class="card-text">"{{ review.product }}"</h5>
-                    <h5 class="card-text">"{{ review.review }}"</h5>
+                    <h5 class="card-text text-center bg-warning">{{ review.product }}</h5>
+                    <h5 class="card-text">Comments: "{{ review.review }}"</h5>
                     
-                    <p class="card-text"><small>Review from: {{ review.user }} on: {{ review.created_on }} and {{ review.id }}  </small></p>
+                    <p class="card-text"><small>Review from: {{ review.user }} on: {{ review.created_on }} </small></p>
                     <!-- --------------------------- -->
                     {% if request.user == review.user %}
                     <small class="ml-3">
