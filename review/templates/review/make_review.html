@@ -21,12 +21,13 @@
             <form method="post" style="margin-top: 1.3em;">
                 
                 {% csrf_token %}
-                <div class="form-group">
+                {{ form|crispy }}
+                <!-- <div class="form-group">
                     <label for="user">user:</label>
                     <input type="text" class="form-control" id="user" name="user" value="{{ request.user.username }}" disabled>
                 </div>
                 <br>
-                {{ form | crispy }}
+                {{ form | crispy }} -->
                 <button type="submit" class="btn btn-primary btn-signup btn-lg">Submit</button>
             </form>
         </div>

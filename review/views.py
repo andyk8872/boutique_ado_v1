@@ -74,7 +74,9 @@ def edit_review(request, review_id):
             messages.error(request, 'Error. Please ensure the form is valid.')   
 
     else:
-        form = ReviewForm()
+        form = ReviewForm(instance=review)
+        messages.info(request, f'You are editing')
+
         context = {            
             'form': form,            
             }

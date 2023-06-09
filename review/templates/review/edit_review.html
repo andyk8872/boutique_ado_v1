@@ -22,8 +22,9 @@
                 
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="user">user:</label>
-                    <input type="text" class="form-control" id="user" name="user" value="{{ request.user.username }}" disabled>
+                    <label for="user"></label>
+                    <!-- <input type="text" class="form-control" id="user" name="user" value="{{ request.user.username }}" disabled> -->
+                    <input type="text" class="form-control" id="user" name="user" value="Staff editing" disabled>
                 </div>
                 <br>
                 {{ form | crispy }}
