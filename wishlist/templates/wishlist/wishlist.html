@@ -11,9 +11,38 @@
 
 {% block content %}
 <div class="overlay"></div>
-<div class="container-fluid">
-    <div class="row">
-        <h2>Wishlist</h2>
+<div class="cart-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-heading mb-10">My wishlist</div>
+
+                {% if wishlist %}
+                {{ wishlist }}
+                {% else %}
+                <p>Your wish list is empty</p>
+                {% endif %}
+
+                {% if wishlist %}
+
+
+                {% for item in wishlist %}
+
+
+                <div class="img-product">
+                    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="mCS_img_loaded tiny">
+                </div>
+                {% endfor %}
+
+
+                {% else %}
+                <p>Your wish list is empty</p>
+                {% endif %}
+
+                </table>
+            </div>
+        </div>
     </div>
+</div>
 </div>
 {% endblock %}

@@ -105,18 +105,25 @@
                     </div>
                 </form>
             </div>
-        
+
         </div>
     </div>
     <hr>
-    <div class="row"> 
-        
-        
-        <p class="display-3 mt-5">Reviews</p>
-        {{ reviews }}
-
-
+    {% if request.user.is_authenticated %}
+    <div class="col-6">
+        <form class="form" action="{% url 'wishlist:add_to_wishlist' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                    <div class="col{% if s %}-12 mt-2{% endif %}">
+                        <button type="submit" class="btn btn-success rounded-0 text-uppercase mt-5">Wish List <i class="fas fa-heart" id="love"></i></button>
+                    </div>
+                    <input type="hidden" name="product-id" value="{{ product.id }}">
+            </div>
+        </form> 
     </div>
+    {% else %}
+    <div class="col-6"></div>
+    {% endif %}
 
 </div>
 {% endblock %}
