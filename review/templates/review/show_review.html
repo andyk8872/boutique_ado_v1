@@ -31,11 +31,12 @@
                     <small class="ml-3">
                         <!-- <a href="{% url 'edit_review' review.id %}">Edit</a> |                         -->
                         <a type="button" class="btn btn-outline-primary"href="{% url 'edit_review' review.id %}">Edit</a> |  
-                        <a type="button" class="btn btn-outline-danger" href="{% url 'delete_review' review.id %}">Delete</a>
+                        <!-- <a type="button" class="btn btn-outline-danger" href="">Delete</a> -->
+                        <a type="button" class="btn btn-outline-danger" href="{% url 'delete_items' review.id %}">Delete</a>
                         
                     </small>
                     {% elif request.user.is_superuser %}                    
-                    <a type="button" class="btn btn-outline-danger" href="{% url 'delete_review' review.id %}">Delete</a>
+                    <a type="button" class="btn btn-outline-danger" href="{% url 'delete_items' review.id %}">Delete</a>
                     {% else %}
                     <p></p>
                     {% endif %}
