@@ -5,6 +5,8 @@ from .models import Review
 from django.contrib.auth.models import User
 from django.contrib import messages
 
+from django.core.paginator import Paginator
+
 
 # def make_review(request):
 #     """
@@ -39,11 +41,29 @@ def show_review(request):
     """
     Displays the reviews.
     """
-    reviews = Review.objects.all().order_by('-created_on')
+    # reviews = Review.objects.all().order_by('-created_on')
+    reviews = Review.objects.all()
+    # Set up pagination
+    p = Paginator(Review.objects.all(), 3)
+    page = request.GET.get('page')
+    reviewed = p.get_page(page)
+
     context = {
         'reviews': reviews,
+        'reviewed': reviewed,
     }
     return render(request, 'review/show_review.html', context)
+
+
+# def show_review(request):
+#     """
+#     Displays the reviews.
+#     """
+#     reviews = Review.objects.all().order_by('-created_on')
+#     context = {
+#         'reviews': reviews,
+#     }
+#     return render(request, 'review/show_review.html', context)   
 
 
 # def (request, review_id):

@@ -13,37 +13,97 @@
 {% endblock %}
 
 {% block content %}
-<div class="bg-info"></div>
+<div class="overlay"></div>
 <div class="container">
     <h1 class="mt-5 text-center font-weight-bold">Customer Product Reviews</h1>
     <hr>
-    <div class="row mb-2">
+    <div class="row">
 
         <!--Blog Entries-->
         {% if not reviews %}
         <h2 class="text-center text-white">There are no reviews</h2>
         {% else %}
-        {% for review in reviews %}
+        {% for review in reviewed %}
         <div class="col-xs-12 col-md-4">
-            <div class="card grow shadow">
+            <div class="card grow shadow mb-2">
 
                 <img class="card-img-top" src=" {{ review.product.image.url }}" alt="{{ review.product.name }}"
                     style="height: 300px;">
                 <div class="card-body">
 
                     <h5 class="card-title">{{ review.product.name }}</h5>
-                    <hr>                    
+                    <hr>
                     <p class="card-text">Review: {{ review.review |truncatechars:30}}</p>
                     <p class="text-capitalize"><small>Review by: {{ review.user }} -
-                            {{ review.created_on | date:"D d M Y"}} </small></p>  
+                            {{ review.created_on | date:"D d M Y"}} </small></p>
+                    <!-- ----------------------------------------------  -->
+                    {% if request.user == review.user %}
+                    <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'edit_review' review.id %}">Edit</a>
+                    <!-- <a type="button" class="btn btn-outline-danger" href="{% url 'delete_items' review.id %}">Delete</a> -->
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                        data-target="#exampleModal-{{ review.id}}">delete</button>
+                    {% elif request.user.is_superuser %}
+                    <!-- <a type="button" class="btn btn-outline-danger" href="{% url 'delete_items' review.id %}">Delete</a> -->
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                        data-target="#exampleModal-{{ review.id}}">delete</button>
+                    {% else %}
+                    <p></p>
+                    {% endif %}
+                    <!-- ---------------------------------------------------- -->
                 </div>
             </div>
         </div>
+        <!-- ------------------------------------------ -->
+        <!-- Modal for confirmation of delete -->
+        <div class="modal fade" id="exampleModal-{{ review.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModals"><i class="fa-solid fa-trash"></i>&nbsp;&nbsp;
+                            Delete
+                            Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <span class="text-danger"><i class="fa-solid fa-trash fa-2x"></i></span>
+                        <div class="text-danger" style="height: 30px;">Are you sure you want
+                            to delete ?</div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-outline-danger btn-sm" href="{% url 'delete_items' review.id %}">Delete</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- -------------------------------------------- -->
         {% endfor %}
         {% endif %}
-
-
-
     </div>
+</div>
+<br/></br/>
+<!-- {{ reviewed }}<br/>
+Has previous: {{ reviewed.has_previous }}<br/>
+Has next: {{ reviewed.has_next}}<br/>
+Current Page: {{ reviewed.number}}<br/>
+Number of pages: {{ reviewed.paginator.num_pages }}<br/>
+<hr><br/><br/> -->
+<div class="text-center">
+{% if reviewed.has_previous %}
+<a href="?page=1">&laquo First</a>
+<a href="?page={{ reviewed.previous_page_number }}">Previous</a>
+{%endif%}
+
+Page {{ reviewed.number }} of {{ reviewed.paginator.num_pages }}
+
+{% if reviewed.has_next %}
+<a href="?page={{ reviewed.next_page_number }}">Next</a>
+<a href="?page={{ reviewed.paginator.num_pages }}">Last &raquo</a>
+{%endif%}
 </div>
 {%endblock%}
