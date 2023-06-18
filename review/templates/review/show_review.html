@@ -38,7 +38,8 @@
                             {{ review.created_on | date:"D d M Y"}} </small></p>
                     <!-- ----------------------------------------------  -->
                     {% if request.user == review.user %}
-                    <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'edit_review' review.id %}">Edit</a>
+                    <a type="button" class="btn btn-outline-primary btn-sm"
+                        href="{% url 'edit_review' review.id %}">Edit</a>
                     <!-- <a type="button" class="btn btn-outline-danger" href="{% url 'delete_items' review.id %}">Delete</a> -->
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                         data-target="#exampleModal-{{ review.id}}">delete</button>
@@ -86,24 +87,33 @@
         {% endif %}
     </div>
 </div>
-<br/></br/>
+<br /></br />
 <!-- {{ reviewed }}<br/>
 Has previous: {{ reviewed.has_previous }}<br/>
 Has next: {{ reviewed.has_next}}<br/>
 Current Page: {{ reviewed.number}}<br/>
 Number of pages: {{ reviewed.paginator.num_pages }}<br/>
 <hr><br/><br/> -->
-<div class="text-center">
-{% if reviewed.has_previous %}
-<a href="?page=1">&laquo First</a>
-<a href="?page={{ reviewed.previous_page_number }}">Previous</a>
-{%endif%}
+<!-- Pagination -->
 
-Page {{ reviewed.number }} of {{ reviewed.paginator.num_pages }}
 
-{% if reviewed.has_next %}
-<a href="?page={{ reviewed.next_page_number }}">Next</a>
-<a href="?page={{ reviewed.paginator.num_pages }}">Last &raquo</a>
-{%endif%}
-</div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if reviewed.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ reviewed.previous_page_number }}">Previous</a>
+            </li>
+            {%endif%}
+
+            <li class="page-item disabled"><a href="#" class="page-link">Page {{ reviewed.number }} of
+                    {{ reviewed.paginator.num_pages }}</a></li>
+
+            {% if reviewed.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ reviewed.next_page_number }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ reviewed.paginator.num_pages }}">Last &raquo</a>
+            </li>
+            {%endif%}
+        </ul>
+    </nav>
+
 {%endblock%}
