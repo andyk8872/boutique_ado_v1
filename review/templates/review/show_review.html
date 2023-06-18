@@ -13,42 +13,37 @@
 {% endblock %}
 
 {% block content %}
-<div class="background_change"></div>
-<h1 class="display-4 mt-5 text-center font-weight-bold">Customer Product Reviews</h1>
+<div class="bg-info"></div>
 <div class="container">
-    <div class="row bg-form text-dark">
-        <div class="col-md-6 mt-3 mb-3 offset-md-3">
-            {% for review in reviews %}
-            <div class="card bg-light mb-3 mx-auto" style="max-width: 36rem">
+    <h1 class="mt-5 text-center font-weight-bold">Customer Product Reviews</h1>
+    <hr>
+    <div class="row mb-2">
 
+        <!--Blog Entries-->
+        {% if not reviews %}
+        <h2 class="text-center text-white">There are no reviews</h2>
+        {% else %}
+        {% for review in reviews %}
+        <div class="col-xs-12 col-md-4">
+            <div class="card grow shadow">
+
+                <img class="card-img-top" src=" {{ review.product.image.url }}" alt="{{ review.product.name }}"
+                    style="height: 300px;">
                 <div class="card-body">
-                    <h5 class="font-weight-bold text-center bg-warning">{{ review.product }}</h5>
-                    <h5 class="card-text">Product Review: {{ review.review }}</h5>
-                    
-                    <p class="text-capitalize"><small>Review by: {{ review.user }} on {{ review.created_on | date:"D d M Y"}} </small></p>                    
-                    <!-- --------------------------- -->
-                    {% if request.user == review.user %}
-                    <small class="ml-3">
-                        <!-- <a href="{% url 'edit_review' review.id %}">Edit</a> |                         -->
-                        <a type="button" class="btn btn-outline-primary"href="{% url 'edit_review' review.id %}">Edit</a> |  
-                        <!-- <a type="button" class="btn btn-outline-danger" href="">Delete</a> -->
-                        <!-- <a type="button" class="btn btn-outline-danger" href="{% url 'delete_items' review.id %}">Delete</a> -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            demo delete
-                          </button>
-                        
-                    </small>
-                    {% elif request.user.is_superuser %}                    
-                    <a type="button" class="btn btn-outline-danger" href="{% url 'delete_items' review.id %}">Delete</a>
-                    {% else %}
-                    <p></p>
-                    {% endif %}
-                    <!-- ----------------------------- -->
 
+                    <h5 class="card-title">{{ review.product.name }}</h5>
+                    <hr>                    
+                    <p class="card-text">Review: {{ review.review |truncatechars:30}}</p>
+                    <p class="text-capitalize"><small>Review by: {{ review.user }} -
+                            {{ review.created_on | date:"D d M Y"}} </small></p>  
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
+        {% endif %}
+
+
+
     </div>
 </div>
 {%endblock%}

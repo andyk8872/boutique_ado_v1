@@ -102,16 +102,16 @@
                                     {% if request.user.is_superuser %}
                                     <small class="ml-3">
                                         <a class="btn btn-primary btn-sm" href="{% url 'edit_product' product.id %}">Edit</a> |
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">delete</button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{ product.id}}">delete</button>
                                     </small>
                                     <!-- ------------------------------------- -->
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                    <div class="modal fade" id="exampleModal-{{ product.id}}" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-trash"></i>&nbsp;&nbsp; Delete Confirmation</h5>
+                                                    <h5 class="modal-title" id="exampleModals"><i class="fa-solid fa-trash"></i>&nbsp;&nbsp; Delete Confirmation</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>

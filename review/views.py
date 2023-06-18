@@ -57,14 +57,22 @@ def show_review(request):
     # messages.success(request, 'Review deleted!')
     # return redirect(reverse('show_review'))
 
+# def delete_items(request, review_id):
+#     """ Delete a product from the store """
+#     review = get_object_or_404(Review, pk=review_id)
+#     if request.method == 'POST':
+#         review.delete()
+#         messages.success(request, 'Review deleted!')
+#         return redirect('show_review')
+#     return render(request, 'review/delete_items.html')
+
+
 def delete_items(request, review_id):
     """ Delete a product from the store """
     review = get_object_or_404(Review, pk=review_id)
-    if request.method == 'POST':
-        review.delete()
-        messages.success(request, 'Review deleted!')
-        return redirect('show_review')
-    return render(request, 'review/delete_items.html')   
+    review.delete()
+    messages.success(request, 'Review deleted!')
+    return redirect(reverse('show_review'))   
 
 
 def edit_review(request, review_id):
